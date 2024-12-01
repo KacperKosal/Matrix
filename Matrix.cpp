@@ -155,3 +155,25 @@ Matrix& Matrix::nad_przekatna(void) {
 
     return *this;
 }
+
+Matrix& Matrix::szachownica(void) {
+    // Sprawdzenie, czy macierz została zainicjalizowana.
+    if (!data) {
+        cerr << "Pamięć dla macierzy nie została zaalokowana. Najpierw zaalokuj pamięć." << endl;
+        return *this;
+    }
+
+    // Przejście przez wszystkie elementy macierzy.
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            // Naprzemiennie ustawiamy 0 i 1, zależnie od parzystości indeksów i + j.
+            if ((i + j) % 2 == 0) {
+                data[i * size + j] = 0;
+            } else {
+                data[i * size + j] = 1;
+            }
+        }
+    }
+
+    return *this;
+}
