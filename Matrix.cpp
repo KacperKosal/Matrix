@@ -1,4 +1,6 @@
 #include "Matrix.hpp"
+#include <iostream>
+using namespace std;
 
 Matrix& Matrix::diagonalna(int* t) {
     // Sprawdzenie, czy macierz została zainicjalizowana.
@@ -178,6 +180,29 @@ Matrix& Matrix::szachownica(void) {
     return *this;
 }
 
+// Poprawiona implementacja operatora + dla macierzy
+Matrix& Matrix::operator+(Matrix& m) {
+    // Sprawdzenie, czy obie macierze mają ten sam rozmiar.
+    if (size != m.size) {
+        cerr << "Macierze mają różne rozmiary, nie można ich dodać." << endl;
+        return *this;
+    }
+
+    // Tworzymy nową macierz, która będzie wynikiem dodawania.
+    Matrix result(size);
+
+    // Dodawanie odpowiadających sobie elementów macierzy.
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            result.data[i * size + j] = data[i * size + j] + m.data[i * size + j];
+        }
+    }
+
+    // Zwracamy wynikową macierz (nie modyfikujemy bieżącej, ponieważ operator powinien zwrócić nową).
+    return result;
+}
+
+// Poprawiona implementacja metody alokacji
 Matrix& Matrix::alokuj(int n) {
     // Sprawdzamy, czy rozmiar n jest większy od zera
     if (n <= 0) {
@@ -185,14 +210,14 @@ Matrix& Matrix::alokuj(int n) {
         return *this;
     }
 
+    // Jeśli rozmiar macierzy nie zmienia się, nie alokujemy ponownie pamięci
+    if (data != nullptr && n == size) {
+        return *this;
+    }
+
     // Jeśli macierz ma już zaalokowaną pamięć
     if (data != nullptr) {
-        // Sprawdzamy, czy rozmiar macierzy się zmienia
-        if (n != size) {
-            // Zwalniamy pamięć, jeśli rozmiar się zmienia
-            delete[] data;
-            data = nullptr; // Ustawiamy wskaźnik na nullptr przed nową alokacją
-        }
+        delete[] data;
     }
 
     // Alokujemy pamięć dla macierzy n x n
