@@ -133,18 +133,51 @@ Matrix& Matrix::pod_przekatna(void) {
 
     return *this;
 }
-/**
- * @brief Alokuje pamięć dla macierzy o wymiarach n x n.
- *
- * Jeśli macierz nie miała wcześniej zaalokowanej pamięci, to metoda alokuje
- * nową tablicę dla macierzy o wymiarach \(n \times n\).
- * Jeśli pamięć była już zaalokowana, sprawdzane jest, czy nowy rozmiar
- * różni się od poprzedniego. Jeśli tak, zwalniana jest poprzednia pamięć,
- * a następnie alokowana nowa o żądanym rozmiarze.
- *
- * @param n Rozmiar macierzy (liczba wierszy i kolumn).
- * @return Zwraca referencję do obiektu macierzy.
- */
+
+Matrix& Matrix::nad_przekatna(void) {
+    // Sprawdzenie, czy macierz została zainicjalizowana.
+    if (!data) {
+        cerr << "Pamięć dla macierzy nie została zaalokowana. Najpierw zaalokuj pamięć." << endl;
+        return *this;
+    }
+
+    // Przejście przez wszystkie elementy macierzy.
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            // Ustawienie 1 powyżej przekątnej (i < j), pozostałe elementy to 0.
+            if (i < j) {
+                data[i * size + j] = 1;
+            } else {
+                data[i * size + j] = 0;
+            }
+        }
+    }
+
+    return *this;
+}
+
+Matrix& Matrix::szachownica(void) {
+    // Sprawdzenie, czy macierz została zainicjalizowana.
+    if (!data) {
+        cerr << "Pamięć dla macierzy nie została zaalokowana. Najpierw zaalokuj pamięć." << endl;
+        return *this;
+    }
+
+    // Przejście przez wszystkie elementy macierzy.
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            // Naprzemiennie ustawiamy 0 i 1, zależnie od parzystości indeksów i + j.
+            if ((i + j) % 2 == 0) {
+                data[i * size + j] = 0;
+            } else {
+                data[i * size + j] = 1;
+            }
+        }
+    }
+
+    return *this;
+}
+
 Matrix& Matrix::alokuj(int n) {
     // Sprawdzamy, czy rozmiar n jest większy od zera
     if (n <= 0) {
