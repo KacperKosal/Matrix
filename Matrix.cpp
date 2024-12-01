@@ -294,3 +294,20 @@ Matrix& Matrix::operator*(int a) {
     return *this;
 }
 
+Matrix& Matrix::operator-(int a) {
+    // Sprawdzenie, czy macierz została zainicjalizowana
+    if (!data) {
+        cerr << "Pamięć dla macierzy nie została zaalokowana. Najpierw zaalokuj pamięć." << endl;
+        return *this;
+    }
+
+    // Odejmowanie wartości skalarnej od każdego elementu macierzy
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            data[i * size + j] -= a; // Odejmowanie skalaru od każdego elementu
+        }
+    }
+
+    return *this;
+}
+
