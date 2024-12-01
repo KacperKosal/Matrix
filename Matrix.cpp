@@ -177,3 +177,34 @@ Matrix& Matrix::szachownica(void) {
 
     return *this;
 }
+
+Matrix& Matrix::alokuj(int n) {
+    // Sprawdzamy, czy rozmiar n jest większy od zera
+    if (n <= 0) {
+        cout << "Rozmiar macierzy musi być większy od zera." << endl;
+        return *this;
+    }
+
+    // Jeśli macierz ma już zaalokowaną pamięć
+    if (data != nullptr) {
+        // Sprawdzamy, czy rozmiar macierzy się zmienia
+        if (n != size) {
+            // Zwalniamy pamięć, jeśli rozmiar się zmienia
+            delete[] data;
+            data = nullptr; // Ustawiamy wskaźnik na nullptr przed nową alokacją
+        }
+    }
+
+    // Alokujemy pamięć dla macierzy n x n
+    size = n;
+    data = new int[size * size]; // Alokacja pamięci
+
+    // Inicjalizacja macierzy zerami
+    for (int i = 0; i < size * size; ++i) {
+        data[i] = 0; // Inicjalizujemy każdy element na 0
+    }
+
+    cout << "Pamięć dla macierzy o wymiarach " << size << " x " << size << " została pomyślnie zaalokowana." << endl;
+
+    return *this;
+}
