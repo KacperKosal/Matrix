@@ -89,3 +89,25 @@ Matrix& Matrix::wiersz(int y, int* t) {
 
     return *this;
 }
+
+Matrix& Matrix::przekatna(void) {
+    // Sprawdzenie, czy macierz została zainicjalizowana.
+    if (!data) {
+        cerr << "Pamięć dla macierzy nie została zaalokowana. Najpierw zaalokuj pamięć." << endl;
+        return *this;
+    }
+
+    // Przejście przez wszystkie elementy macierzy i ustawienie wartości.
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            // Ustawienie 1 na przekątnej (i == j) i 0 w innych miejscach.
+            if (i == j) {
+                data[i * size + j] = 1;
+            } else {
+                data[i * size + j] = 0;
+            }
+        }
+    }
+
+    return *this;
+}
