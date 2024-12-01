@@ -276,3 +276,26 @@ Matrix& Matrix::operator+(int a) {
 
     return *this;
 }
+/**
+ * @brief Transponuje macierz (zamienia wiersze z kolumnami).
+ *
+ * Tworzy nową macierz, w której wiersze stają się kolumnami.
+ *
+ * @return Referencja do bieżącego obiektu.
+ */
+Matrix& Matrix::dowroc(void) {
+    // Tworzymy tymczasową macierz o tym samym rozmiarze
+    Matrix temp(size);
+
+    // Przekształcamy macierz: wiersze stają się kolumnami
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            temp.wstaw(j, i, pokaz(i, j)); // Wstawiamy elementy z oryginalnej macierzy w odwrotnej kolejności
+        }
+    }
+
+    // Kopiujemy zmienioną macierz z powrotem do bieżącego obiektu
+    *this = temp;
+
+    return *this;
+}
