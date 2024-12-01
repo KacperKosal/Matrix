@@ -259,3 +259,4 @@ Matrix& Matrix::operator*(Matrix& m) {
     // Zwracamy wynikową macierz (nie modyfikujemy bieżącej, ponieważ operator powinien zwrócić nową).
     return result;
 }
+
