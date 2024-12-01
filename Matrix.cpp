@@ -1,5 +1,7 @@
 #include "Matrix.hpp"
 #include <iostream>
+#include <cstdlib>  // dla funkcji rand()
+#include <ctime>    // dla funkcji time()
 using namespace std;
 
 Matrix& Matrix::diagonalna(int* t) {
@@ -312,6 +314,29 @@ Matrix& Matrix::operator=(Matrix& m) {
 
     for (int i = 0; i < size * size; ++i) {
         data[i] = m.data[i];
+    }
+
+    return *this;
+}
+
+
+/**
+ * @brief Wypełnia macierz losowymi liczbami od 0 do 9.
+ *
+ * Każdy element macierzy zostaje wypełniony losową liczbą z przedziału [0, 9].
+ *
+ * @return Referencja do bieżącego obiektu.
+ */
+Matrix& Matrix::losuj(void) {
+    // Inicjalizacja generatora liczb losowych
+    srand(time(0));  // Ustawiamy ziarno na podstawie bieżącego czasu
+
+    // Wypełnianie macierzy losowymi liczbami od 0 do 9
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            // Losowanie liczby z przedziału [0, 9]
+            wstaw(i, j, rand() % 10);  // rand() % 10 zwraca liczby od 0 do 9
+        }
     }
 
     return *this;
