@@ -341,3 +341,35 @@ Matrix& Matrix::losuj(void) {
 
     return *this;
 }
+/**
+ * @brief Wypełnia część macierzy losowymi liczbami od 0 do 9.
+ *
+ * Liczba losowanych elementów jest określona przez parametr `x`. Losowane liczby są w przedziale [0, 9],
+ * a liczba elementów do losowania jest określona przez `x`.
+ * Elementy są losowane w losowych pozycjach macierzy.
+ *
+ * @param x Liczba losowanych elementów.
+ * @return Referencja do bieżącego obiektu.
+ */
+Matrix& Matrix::losuj(int x) {
+    // Inicjalizacja generatora liczb losowych
+    srand(time(0));  // Ustawiamy ziarno na podstawie bieżącego czasu
+
+    // Liczba losowanych elementów
+    int elementsToFill = x;
+
+    while (elementsToFill > 0) {
+        // Losowanie wiersza i kolumny
+        int i = rand() % size;
+        int j = rand() % size;
+
+        // Sprawdzamy, czy na tej pozycji już jest liczba (żeby nie nadpisać istniejącego elementu)
+        if (data[i * size + j] == 0) {
+            // Losowanie liczby od 0 do 9 i wstawienie jej do odpowiedniej pozycji
+            wstaw(i, j, rand() % 10);
+            --elementsToFill;  // Zmniejszamy licznik pozostałych elementów do wypełnienia
+        }
+    }
+
+    return *this;
+}
