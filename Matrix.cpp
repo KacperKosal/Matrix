@@ -202,6 +202,50 @@ Matrix& Matrix::operator+(Matrix& m) {
     return result;
 }
 
+// Poprawiona implementacja operatora * dla macierzy
+Matrix& Matrix::operator*(Matrix& m) {
+    // Sprawdzenie, czy obie macierze mają ten sam rozmiar.
+    if (size != m.size) {
+        cerr << "Macierze mają różne rozmiary, nie można ich pomnożyć." << endl;
+        return *this;
+    }
+
+    // Tworzymy nową macierz, która będzie wynikiem mnożenia.
+    Matrix result(size);
+
+    // Mnożenie macierzy A (this) i B (m)
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            result.data[i * size + j] = 0; // Inicjalizujemy element na 0
+
+            // Obliczenie wartości elementu wynikowej macierzy
+            for (int k = 0; k < size; ++k) {
+                result.data[i * size + j] += data[i * size + k] * m.data[k * size + j];
+            }
+        }
+    }
+
+    // Zwracamy wynikową macierz (nie modyfikujemy bieżącej, ponieważ operator powinien zwrócić nową).
+    return result;
+}
+
+// Wstawienie wartości w określoną pozycję
+Matrix& Matrix::wstaw(int x, int y, int wartosc) {
+    // Sprawdzamy, czy indeksy x i y mieszczą się w rozmiarze macierzy
+    if (x < 0 || x >= size || y < 0 || y >= size) {
+        cout << "Indeksy poza zakresem macierzy." << endl;
+        return *this;
+    }
+
+    // Wstawiamy wartość do odpowiedniej pozycji
+    data[x * size + y] = wartosc;
+
+    cout << "Wartość " << wartosc << " została wstawiona do macierzy na pozycji ("
+         << x << ", " << y << ")." << endl;
+
+    return *this;
+}
+
 // Poprawiona implementacja metody alokacji
 Matrix& Matrix::alokuj(int n) {
     // Sprawdzamy, czy rozmiar n jest większy od zera
@@ -230,32 +274,6 @@ Matrix& Matrix::alokuj(int n) {
     }
 
     cout << "Pamięć dla macierzy o wymiarach " << size << " x " << size << " została pomyślnie zaalokowana." << endl;
-
-    return *this;
-}
-/**
- * @brief Wstawia wartość do macierzy na określonej pozycji.
- *
- * Wstawia wartość do macierzy na pozycji określonej przez indeksy wiersza i kolumny.
- * Jeśli indeksy są poza zakresem rozmiaru macierzy, nie wykonuje żadnej operacji.
- *
- * @param x Indeks wiersza (0 ≤ x < n).
- * @param y Indeks kolumny (0 ≤ y < n).
- * @param wartosc Wartość, która ma zostać przypisana do elementu macierzy.
- * @return Zwraca referencję do obiektu macierzy.
- */
-Matrix& Matrix::wstaw(int x, int y, int wartosc) {
-    // Sprawdzamy, czy indeksy x i y mieszczą się w rozmiarze macierzy
-    if (x < 0 || x >= size || y < 0 || y >= size) {
-        cout << "Indeksy poza zakresem macierzy." << endl;
-        return *this;
-    }
-
-    // Wstawiamy wartość do odpowiedniej pozycji
-    data[x * size + y] = wartosc;
-
-    cout << "Wartość " << wartosc << " została wstawiona do macierzy na pozycji ("
-         << x << ", " << y << ")." << endl;
 
     return *this;
 }
