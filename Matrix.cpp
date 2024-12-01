@@ -32,3 +32,32 @@ Matrix::Matrix(int n) : data(nullptr), size(0) {
     cout << "Konstruktor alokujący wywołany. Macierz o rozmiarze "
          << size << " x " << size << " została zaalokowana." << endl;
 }
+/**
+ * @brief Konstruktor alokujący macierz o wymiarach n x n i kopiujący dane z tabeli.
+ *
+ * Tworzy macierz kwadratową, alokuje pamięć i wypełnia ją wartościami z dostarczonej tablicy.
+ *
+ * @param n Rozmiar macierzy (liczba wierszy i kolumn).
+ * @param t Wskaźnik na tablicę danych, która zawiera wartości do skopiowania.
+ *          Tablica powinna zawierać co najmniej n * n elementów.
+ */
+Matrix::Matrix(int n, int* t) : data(nullptr), size(0) {
+    if (n <= 0) {
+        cout << "Rozmiar macierzy musi być większy od zera. Macierz nie została zaalokowana." << endl;
+        return;
+    }
+
+    if (t == nullptr) {
+        cout << "Podana tablica danych jest pusta. Macierz nie została zaalokowana." << endl;
+        return;
+    }
+
+    size = n;
+    data = new int[size * size];
+    for (int i = 0; i < size * size; ++i) {
+        data[i] = t[i]; // Kopiowanie danych z tablicy t
+    }
+
+    cout << "Konstruktor kopiujący wywołany. Macierz o rozmiarze "
+         << size << " x " << size << " została zaalokowana i wypełniona danymi." << endl;
+}
