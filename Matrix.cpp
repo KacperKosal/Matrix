@@ -276,3 +276,20 @@ Matrix& Matrix::operator+(int a) {
 
     return *this;
 }
+
+Matrix& Matrix::operator*(int a) {
+    // Sprawdzenie, czy macierz została zainicjalizowana
+    if (!data) {
+        cerr << "Pamięć dla macierzy nie została zaalokowana. Najpierw zaalokuj pamięć." << endl;
+        return *this;
+    }
+
+    // Mnożenie każdego elementu macierzy przez wartość skalarą
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            data[i * size + j] *= a; // Mnożenie przez skalar
+        }
+    }
+
+    return *this;
+}
