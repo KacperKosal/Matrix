@@ -233,3 +233,29 @@ Matrix& Matrix::alokuj(int n) {
 
     return *this;
 }
+/**
+ * @brief Wstawia wartość do macierzy na określonej pozycji.
+ *
+ * Wstawia wartość do macierzy na pozycji określonej przez indeksy wiersza i kolumny.
+ * Jeśli indeksy są poza zakresem rozmiaru macierzy, nie wykonuje żadnej operacji.
+ *
+ * @param x Indeks wiersza (0 ≤ x < n).
+ * @param y Indeks kolumny (0 ≤ y < n).
+ * @param wartosc Wartość, która ma zostać przypisana do elementu macierzy.
+ * @return Zwraca referencję do obiektu macierzy.
+ */
+Matrix& Matrix::wstaw(int x, int y, int wartosc) {
+    // Sprawdzamy, czy indeksy x i y mieszczą się w rozmiarze macierzy
+    if (x < 0 || x >= size || y < 0 || y >= size) {
+        cout << "Indeksy poza zakresem macierzy." << endl;
+        return *this;
+    }
+
+    // Wstawiamy wartość do odpowiedniej pozycji
+    data[x * size + y] = wartosc;
+
+    cout << "Wartość " << wartosc << " została wstawiona do macierzy na pozycji ("
+         << x << ", " << y << ")." << endl;
+
+    return *this;
+}
