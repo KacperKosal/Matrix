@@ -3,20 +3,16 @@
 using namespace std;
 
 Matrix& Matrix::diagonalna(int* t) {
-    // Sprawdzenie, czy macierz została zainicjalizowana.
     if (!data) {
         cerr << "Pamięć dla macierzy nie została zaalokowana. Najpierw zaalokuj pamięć." << endl;
         return *this;
     }
 
-    // Iteracja po wszystkich elementach macierzy.
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
             if (i == j) {
-                // Elementy na przekątnej ustawiamy na wartości z tablicy t.
                 data[i * size + j] = t[i];
             } else {
-                // Pozostałe elementy ustawiamy na 0.
                 data[i * size + j] = 0;
             }
         }
@@ -26,24 +22,20 @@ Matrix& Matrix::diagonalna(int* t) {
 }
 
 Matrix& Matrix::diagonalna_k(int k, int* t) {
-    // Sprawdzenie, czy macierz została zainicjalizowana.
     if (!data) {
         cerr << "Pamięć dla macierzy nie została zaalokowana. Najpierw zaalokuj pamięć." << endl;
         return *this;
     }
 
-    // Wypełniamy całą macierz zerami.
     for (int i = 0; i < size * size; ++i) {
         data[i] = 0;
     }
 
-    // Ustawianie wartości na przesuniętej przekątnej.
     for (int i = 0; i < size; ++i) {
-        int j = i + k; // Kolumna obliczana na podstawie przesunięcia.
+        int j = i + k;
 
-        // Sprawdzenie, czy indeks kolumny mieści się w zakresie macierzy.
         if (j >= 0 && j < size) {
-            data[i * size + j] = t[i]; // Wpisanie wartości z tabeli.
+            data[i * size + j] = t[i];
         }
     }
 
@@ -51,19 +43,16 @@ Matrix& Matrix::diagonalna_k(int k, int* t) {
 }
 
 Matrix& Matrix::kolumna(int x, int* t) {
-    // Sprawdzenie, czy macierz została zainicjalizowana.
     if (!data) {
         cerr << "Pamięć dla macierzy nie została zaalokowana. Najpierw zaalokuj pamięć." << endl;
         return *this;
     }
 
-    // Sprawdzenie, czy indeks kolumny jest w zakresie.
     if (x < 0 || x >= size) {
         cerr << "Indeks kolumny poza zakresem. Wartość x powinna być w przedziale od 0 do " << size - 1 << "." << endl;
         return *this;
     }
 
-    // Przepisanie danych z tabeli do wskazanej kolumny.
     for (int i = 0; i < size; ++i) {
         data[i * size + x] = t[i];
     }
@@ -72,19 +61,16 @@ Matrix& Matrix::kolumna(int x, int* t) {
 }
 
 Matrix& Matrix::wiersz(int y, int* t) {
-    // Sprawdzenie, czy macierz została zainicjalizowana.
     if (!data) {
         cerr << "Pamięć dla macierzy nie została zaalokowana. Najpierw zaalokuj pamięć." << endl;
         return *this;
     }
 
-    // Sprawdzenie, czy indeks wiersza jest w zakresie.
     if (y < 0 || y >= size) {
         cerr << "Indeks wiersza poza zakresem. Wartość y powinna być w przedziale od 0 do " << size - 1 << "." << endl;
         return *this;
     }
 
-    // Przepisanie danych z tabeli do wskazanego wiersza.
     for (int i = 0; i < size; ++i) {
         data[y * size + i] = t[i];
     }
@@ -93,16 +79,13 @@ Matrix& Matrix::wiersz(int y, int* t) {
 }
 
 Matrix& Matrix::przekatna(void) {
-    // Sprawdzenie, czy macierz została zainicjalizowana.
     if (!data) {
         cerr << "Pamięć dla macierzy nie została zaalokowana. Najpierw zaalokuj pamięć." << endl;
         return *this;
     }
 
-    // Przejście przez wszystkie elementy macierzy i ustawienie wartości.
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
-            // Ustawienie 1 na przekątnej (i == j) i 0 w innych miejscach.
             if (i == j) {
                 data[i * size + j] = 1;
             } else {
@@ -115,16 +98,13 @@ Matrix& Matrix::przekatna(void) {
 }
 
 Matrix& Matrix::pod_przekatna(void) {
-    // Sprawdzenie, czy macierz została zainicjalizowana.
     if (!data) {
         cerr << "Pamięć dla macierzy nie została zaalokowana. Najpierw zaalokuj pamięć." << endl;
         return *this;
     }
 
-    // Przejście przez wszystkie elementy macierzy.
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
-            // Ustawienie 1 poniżej przekątnej (i > j), pozostałe elementy to 0.
             if (i > j) {
                 data[i * size + j] = 1;
             } else {
@@ -137,16 +117,13 @@ Matrix& Matrix::pod_przekatna(void) {
 }
 
 Matrix& Matrix::nad_przekatna(void) {
-    // Sprawdzenie, czy macierz została zainicjalizowana.
     if (!data) {
         cerr << "Pamięć dla macierzy nie została zaalokowana. Najpierw zaalokuj pamięć." << endl;
         return *this;
     }
 
-    // Przejście przez wszystkie elementy macierzy.
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
-            // Ustawienie 1 powyżej przekątnej (i < j), pozostałe elementy to 0.
             if (i < j) {
                 data[i * size + j] = 1;
             } else {
@@ -159,16 +136,13 @@ Matrix& Matrix::nad_przekatna(void) {
 }
 
 Matrix& Matrix::szachownica(void) {
-    // Sprawdzenie, czy macierz została zainicjalizowana.
     if (!data) {
         cerr << "Pamięć dla macierzy nie została zaalokowana. Najpierw zaalokuj pamięć." << endl;
         return *this;
     }
 
-    // Przejście przez wszystkie elementy macierzy.
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
-            // Naprzemiennie ustawiamy 0 i 1, zależnie od parzystości indeksów i + j.
             if ((i + j) % 2 == 0) {
                 data[i * size + j] = 0;
             } else {
@@ -180,40 +154,31 @@ Matrix& Matrix::szachownica(void) {
     return *this;
 }
 
-// Poprawiona implementacja operatora + dla macierzy
 Matrix& Matrix::operator+(Matrix& m) {
-    // Sprawdzenie, czy obie macierze mają ten sam rozmiar.
     if (size != m.size) {
         cerr << "Macierze mają różne rozmiary, nie można ich dodać." << endl;
         return *this;
     }
 
-    // Tworzymy nową macierz, która będzie wynikiem dodawania.
     Matrix result(size);
 
-    // Dodawanie odpowiadających sobie elementów macierzy.
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
             result.data[i * size + j] = data[i * size + j] + m.data[i * size + j];
         }
     }
 
-    // Zwracamy wynikową macierz (nie modyfikujemy bieżącej, ponieważ operator powinien zwrócić nową).
     return result;
 }
 
-// Poprawiona implementacja operatora * dla macierzy
 Matrix& Matrix::operator*(Matrix& m) {
-    // Sprawdzenie, czy obie macierze mają ten sam rozmiar.
     if (size != m.size) {
         cerr << "Macierze mają różne rozmiary, nie można ich pomnożyć." << endl;
         return *this;
     }
 
-    // Tworzymy nową macierz, która będzie wynikiem mnożenia.
     Matrix result(size);
 
-    // Mnożenie macierzy A (this) i B (m)
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
             result.data[i * size + j] = 0;
@@ -223,17 +188,14 @@ Matrix& Matrix::operator*(Matrix& m) {
         }
     }
 
-    // Zwracamy wynikową macierz (nie modyfikujemy bieżącej, ponieważ operator powinien zwrócić nową).
     return result;
 }
 
 void Matrix::wstaw(int x, int y, int wartosc) {
-    // Sprawdzenie, czy indeksy są w zakresie.
     if (x < 0 || x >= size || y < 0 || y >= size) {
         cerr << "Indeksy poza zakresem. Indeksy muszą być w zakresie od 0 do " << size - 1 << "." << endl;
         return;
     }
-    // Wstawienie wartości do macierzy.
     data[x * size + y] = wartosc;
 }
 
@@ -251,26 +213,22 @@ void Matrix::alokuj(int n) {
 }
 
 int Matrix::pokaz(int x, int y) {
-    // Sprawdzenie, czy indeksy są w zakresie.
     if (x < 0 || x >= size || y < 0 || y >= size) {
         cerr << "Indeksy poza zakresem." << endl;
         return -1;
     }
-    // Zwrócenie wartości w macierzy.
     return data[x * size + y];
 }
 
 Matrix& Matrix::operator+(int a) {
-    // Sprawdzenie, czy macierz została zainicjalizowana
     if (!data) {
         cerr << "Pamięć dla macierzy nie została zaalokowana. Najpierw zaalokuj pamięć." << endl;
         return *this;
     }
 
-    // Dodanie wartości skalarnej do każdego elementu macierzy
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
-            data[i * size + j] += a; // Dodanie skalarnego a do elementu
+            data[i * size + j] += a;
         }
     }
 
@@ -278,16 +236,14 @@ Matrix& Matrix::operator+(int a) {
 }
 
 Matrix& Matrix::operator*(int a) {
-    // Sprawdzenie, czy macierz została zainicjalizowana
     if (!data) {
         cerr << "Pamięć dla macierzy nie została zaalokowana. Najpierw zaalokuj pamięć." << endl;
         return *this;
     }
 
-    // Mnożenie każdego elementu macierzy przez wartość skalarą
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
-            data[i * size + j] *= a; // Mnożenie przez skalar
+            data[i * size + j] *= a;
         }
     }
 
@@ -295,19 +251,68 @@ Matrix& Matrix::operator*(int a) {
 }
 
 Matrix& Matrix::operator-(int a) {
-    // Sprawdzenie, czy macierz została zainicjalizowana
     if (!data) {
         cerr << "Pamięć dla macierzy nie została zaalokowana. Najpierw zaalokuj pamięć." << endl;
         return *this;
     }
 
-    // Odejmowanie wartości skalarnej od każdego elementu macierzy
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
-            data[i * size + j] -= a; // Odejmowanie skalaru od każdego elementu
+            data[i * size + j] -= a;
         }
     }
 
     return *this;
 }
 
+Matrix& Matrix::dowroc(void) {
+    Matrix temp(size);
+
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            temp.data[j * size + i] = data[i * size + j];
+        }
+    }
+
+    return temp;
+}
+
+Matrix& Matrix::operator-(Matrix& m) {
+    if (size != m.size) {
+        cerr << "Macierze mają różne rozmiary, nie można ich odjąć." << endl;
+        return *this;
+    }
+
+    Matrix result(size);
+
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            result.data[i * size + j] = data[i * size + j] - m.data[i * size + j];
+        }
+    }
+
+    return result;
+}
+
+Matrix& Matrix::operator=(Matrix& m) {
+    if (this == &m) {
+        return *this;
+    }
+
+    if (data != nullptr) {
+        delete[] data;
+    }
+
+    size = m.size;
+    data = new int[size * size];
+    if (data == nullptr) {
+        cerr << "Nie udało się zaalokować pamięci." << endl;
+        exit(1);
+    }
+
+    for (int i = 0; i < size * size; ++i) {
+        data[i] = m.data[i];
+    }
+
+    return *this;
+}
