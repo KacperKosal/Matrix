@@ -83,3 +83,18 @@ Matrix::Matrix(Matrix& m) : data(nullptr), size(0) {
 
     cout << "Konstruktor kopiujący wywołany. Macierz została skopiowana." << endl;
 }
+/**
+ * @brief Destruktor klasy Matrix.
+ *
+ * Zwolnia pamięć zaalokowaną dla danych macierzy.
+ * Zapewnia, że zasoby są poprawnie zwolnione, aby uniknąć wycieków pamięci.
+ */
+Matrix::~Matrix() {
+    // Sprawdzamy, czy pamięć została wcześniej zaalokowana
+    if (data != nullptr) {
+        delete[] data; // Zwalniamy pamięć
+        data = nullptr; // Ustawiamy wskaźnik na nullptr po zwolnieniu pamięci
+    }
+
+    cout << "Destruktor wywołany. Pamięć macierzy została zwolniona." << endl;
+}
