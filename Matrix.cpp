@@ -259,3 +259,24 @@ Matrix& Matrix::wstaw(int x, int y, int wartosc) {
 
     return *this;
 }
+/**
+ * @brief Zwraca wartość elementu macierzy na pozycji (x, y).
+ *
+ * Zwraca wartość elementu macierzy znajdującego się w wierszu `x` i kolumnie `y`.
+ * Jeśli podane indeksy są poza zakresem rozmiaru macierzy, metoda może zwrócić wartość domyślną (np. 0),
+ * jednak można dodać mechanizm obsługi błędów, jeśli indeksy są nieprawidłowe.
+ *
+ * @param x Wiersz.
+ * @param y Kolumna.
+ * @return Wartość elementu w macierzy na pozycji (x, y).
+ */
+int Matrix::pokaz(int x, int y) {
+    // Sprawdzenie czy indeksy są w zakresie
+    if (x >= 0 && x < size && y >= 0 && y < size) {
+        return data[x * size + y]; // Zwracamy wartość na pozycji (x, y)
+    } else {
+        // Obsługa błędu (np. zwrócenie wartości domyślnej)
+        std::cerr << "Indeksy poza zakresem!" << std::endl;
+        return 0; // Można również rzucić wyjątek lub zwrócić inny mechanizm obsługi błędów
+    }
+}
