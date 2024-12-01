@@ -1,4 +1,6 @@
 #include "Matrix.hpp"
+#include <iostream>
+using namespace std;
 
 Matrix& Matrix::diagonalna(int* t) {
     // Sprawdzenie, czy macierz została zainicjalizowana.
@@ -178,11 +180,11 @@ Matrix& Matrix::szachownica(void) {
     return *this;
 }
 
+// Poprawiona implementacja operatora + dla macierzy
 Matrix& Matrix::operator+(Matrix& m) {
     // Sprawdzenie, czy obie macierze mają ten sam rozmiar.
     if (size != m.size) {
         cerr << "Macierze mają różne rozmiary, nie można ich dodać." << endl;
-        // W tym przypadku zwróć aktualną macierz, ponieważ operacja nie mogła zostać wykonana.
         return *this;
     }
 
@@ -192,10 +194,42 @@ Matrix& Matrix::operator+(Matrix& m) {
     // Dodawanie odpowiadających sobie elementów macierzy.
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
-            result.data[i * size + j] = data[i * size + j] + m.data[i * m.size + j];
+            result.data[i * size + j] = data[i * size + j] + m.data[i * size + j];
         }
     }
 
     // Zwracamy wynikową macierz (nie modyfikujemy bieżącej, ponieważ operator powinien zwrócić nową).
     return result;
+}
+
+// Poprawiona implementacja metody alokacji
+Matrix& Matrix::alokuj(int n) {
+    // Sprawdzamy, czy rozmiar n jest większy od zera
+    if (n <= 0) {
+        cout << "Rozmiar macierzy musi być większy od zera." << endl;
+        return *this;
+    }
+
+    // Jeśli rozmiar macierzy nie zmienia się, nie alokujemy ponownie pamięci
+    if (data != nullptr && n == size) {
+        return *this;
+    }
+
+    // Jeśli macierz ma już zaalokowaną pamięć
+    if (data != nullptr) {
+        delete[] data;
+    }
+
+    // Alokujemy pamięć dla macierzy n x n
+    size = n;
+    data = new int[size * size]; // Alokacja pamięci
+
+    // Inicjalizacja macierzy zerami
+    for (int i = 0; i < size * size; ++i) {
+        data[i] = 0; // Inicjalizujemy każdy element na 0
+    }
+
+    cout << "Pamięć dla macierzy o wymiarach " << size << " x " << size << " została pomyślnie zaalokowana." << endl;
+
+    return *this;
 }
