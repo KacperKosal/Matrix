@@ -61,3 +61,25 @@ Matrix::Matrix(int n, int* t) : data(nullptr), size(0) {
     cout << "Konstruktor kopiujący wywołany. Macierz o rozmiarze "
          << size << " x " << size << " została zaalokowana i wypełniona danymi." << endl;
 }
+/**
+ * @brief Konstruktor kopiujący klasy Matrix.
+ *
+ * Tworzy nową macierz, która jest kopią innej macierzy.
+ * Alokuje pamięć dla nowej macierzy i kopiuje wartości z macierzy źródłowej.
+ *
+ * @param m Macierz, która ma zostać skopiowana.
+ */
+Matrix::Matrix(Matrix& m) : data(nullptr), size(0) {
+    // Kopiowanie rozmiaru macierzy
+    size = m.size;
+
+    // Alokacja pamięci dla nowej macierzy
+    data = new int[size * size];
+
+    // Kopiowanie danych z macierzy źródłowej
+    for (int i = 0; i < size * size; ++i) {
+        data[i] = m.data[i]; // Kopiowanie każdego elementu z m
+    }
+
+    cout << "Konstruktor kopiujący wywołany. Macierz została skopiowana." << endl;
+}
