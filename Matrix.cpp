@@ -202,81 +202,60 @@ Matrix& Matrix::operator+(Matrix& m) {
     return result;
 }
 
-// Poprawiona implementacja metody alokacji
-Matrix& Matrix::alokuj(int n) {
-    // Sprawdzamy, czy rozmiar n jest większy od zera
-    if (n <= 0) {
-        cout << "Rozmiar macierzy musi być większy od zera." << endl;
+// Poprawiona implementacja operatora * dla macierzy
+Matrix& Matrix::operator*(Matrix& m) {
+    // Sprawdzenie, czy obie macierze mają ten sam rozmiar.
+    if (size != m.size) {
+        cerr << "Macierze mają różne rozmiary, nie można ich pomnożyć." << endl;
         return *this;
     }
 
-    // Jeśli rozmiar macierzy nie zmienia się, nie alokujemy ponownie pamięci
-    if (data != nullptr && n == size) {
-        return *this;
+    // Tworzymy nową macierz, która będzie wynikiem mnożenia.
+    Matrix result(size);
+
+    // Mnożenie macierzy A (this) i B (m)
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            result.data[i * size + j] = 0;
+            for (int k = 0; k < size; ++k) {
+                result.data[i * size + j] += data[i * size + k] * m.data[k * size + j];
+            }
+        }
     }
 
-    // Jeśli macierz ma już zaalokowaną pamięć
-    if (data != nullptr) {
-        delete[] data;
-    }
-
-    // Alokujemy pamięć dla macierzy n x n
-    size = n;
-    data = new int[size * size]; // Alokacja pamięci
-
-    // Inicjalizacja macierzy zerami
-    for (int i = 0; i < size * size; ++i) {
-        data[i] = 0; // Inicjalizujemy każdy element na 0
-    }
-
-    cout << "Pamięć dla macierzy o wymiarach " << size << " x " << size << " została pomyślnie zaalokowana." << endl;
-
-    return *this;
+    // Zwracamy wynikową macierz (nie modyfikujemy bieżącej, ponieważ operator powinien zwrócić nową).
+    return result;
 }
-/**
- * @brief Wstawia wartość do macierzy na określonej pozycji.
- *
- * Wstawia wartość do macierzy na pozycji określonej przez indeksy wiersza i kolumny.
- * Jeśli indeksy są poza zakresem rozmiaru macierzy, nie wykonuje żadnej operacji.
- *
- * @param x Indeks wiersza (0 ≤ x < n).
- * @param y Indeks kolumny (0 ≤ y < n).
- * @param wartosc Wartość, która ma zostać przypisana do elementu macierzy.
- * @return Zwraca referencję do obiektu macierzy.
- */
-Matrix& Matrix::wstaw(int x, int y, int wartosc) {
-    // Sprawdzamy, czy indeksy x i y mieszczą się w rozmiarze macierzy
+
+void Matrix::wstaw(int x, int y, int wartosc) {
+    // Sprawdzenie, czy indeksy są w zakresie.
     if (x < 0 || x >= size || y < 0 || y >= size) {
-        cout << "Indeksy poza zakresem macierzy." << endl;
-        return *this;
+        cerr << "Indeksy poza zakresem. Indeksy muszą być w zakresie od 0 do " << size - 1 << "." << endl;
+        return;
     }
-
-    // Wstawiamy wartość do odpowiedniej pozycji
+    // Wstawienie wartości do macierzy.
     data[x * size + y] = wartosc;
-
-    cout << "Wartość " << wartosc << " została wstawiona do macierzy na pozycji ("
-         << x << ", " << y << ")." << endl;
-
-    return *this;
 }
-/**
- * @brief Zwraca wartość elementu macierzy na pozycji (x, y).
- *
- * Zwraca wartość elementu macierzy znajdującego się w wierszu `x` i kolumnie `y`.
- * Jeśli podane indeksy są poza zakresem rozmiaru macierzy, metoda może zwrócić wartość domyślną (np. 0),
- * jednak można dodać mechanizm obsługi błędów, jeśli indeksy są nieprawidłowe.
- *
- * @param x Wiersz.
- * @param y Kolumna.
- * @return Wartość elementu w macierzy na pozycji (x, y).
- */
-int Matrix::pokaz(int x, int y) {
-    // Sprawdzenie czy indeksy są w zakresie
-    if (x >= 0 && x < size && y >= 0 && y < size) {
-        return data[x * size + y]; // Zwracamy wartość na pozycji (x, y)
-    } else {
-        // Obsługa błędu (np. zwrócenie wartości domyślnej)
-        std::cerr << "Indeksy poza zakresem!" << std::endl;
-        return 0; // Można również rzucić wyjątek lub zwrócić inny mechanizm obsługi błędów
+
+void Matrix::alokuj(int n) {
+    if (data != nullptr) {
+        cerr << "Pamięć dla macierzy już została zaalokowana." << endl;
+        return;
     }
+    size = n;
+    data = new int[size * size]();
+    if (data == nullptr) {
+        cerr << "Nie udało się zaalokować pamięci." << endl;
+        exit(1);
+    }
+}
+
+int Matrix::pokaz(int x, int y) {
+    // Sprawdzenie, czy indeksy są w zakresie.
+    if (x < 0 || x >= size || y < 0 || y >= size) {
+        cerr << "Indeksy poza zakresem." << endl;
+        return -1;
+    }
+    // Zwrócenie wartości w macierzy.
+    return data[x * size + y];
 }
