@@ -277,3 +277,20 @@ Matrix& Matrix::alokuj(int n) {
 
     return *this;
 }
+
+Matrix& Matrix::operator+(int a) {
+    // Sprawdzenie, czy macierz została zainicjalizowana
+    if (!data) {
+        cerr << "Pamięć dla macierzy nie została zaalokowana. Najpierw zaalokuj pamięć." << endl;
+        return *this;
+    }
+
+    // Dodanie wartości skalarnej do każdego elementu macierzy
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            data[i * size + j] += a; // Dodanie skalarnego a do elementu
+        }
+    }
+
+    return *this;
+}
