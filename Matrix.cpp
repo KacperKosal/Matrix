@@ -216,9 +216,7 @@ Matrix& Matrix::operator*(Matrix& m) {
     // Mnożenie macierzy A (this) i B (m)
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
-            result.data[i * size + j] = 0; // Inicjalizujemy element na 0
-
-            // Obliczenie wartości elementu wynikowej macierzy
+            result.data[i * size + j] = 0;
             for (int k = 0; k < size; ++k) {
                 result.data[i * size + j] += data[i * size + k] * m.data[k * size + j];
             }
@@ -229,51 +227,35 @@ Matrix& Matrix::operator*(Matrix& m) {
     return result;
 }
 
-// Wstawienie wartości w określoną pozycję
-Matrix& Matrix::wstaw(int x, int y, int wartosc) {
-    // Sprawdzamy, czy indeksy x i y mieszczą się w rozmiarze macierzy
+void Matrix::wstaw(int x, int y, int wartosc) {
+    // Sprawdzenie, czy indeksy są w zakresie.
     if (x < 0 || x >= size || y < 0 || y >= size) {
-        cout << "Indeksy poza zakresem macierzy." << endl;
-        return *this;
+        cerr << "Indeksy poza zakresem. Indeksy muszą być w zakresie od 0 do " << size - 1 << "." << endl;
+        return;
     }
-
-    // Wstawiamy wartość do odpowiedniej pozycji
+    // Wstawienie wartości do macierzy.
     data[x * size + y] = wartosc;
-
-    cout << "Wartość " << wartosc << " została wstawiona do macierzy na pozycji ("
-         << x << ", " << y << ")." << endl;
-
-    return *this;
 }
 
-// Poprawiona implementacja metody alokacji
-Matrix& Matrix::alokuj(int n) {
-    // Sprawdzamy, czy rozmiar n jest większy od zera
-    if (n <= 0) {
-        cout << "Rozmiar macierzy musi być większy od zera." << endl;
-        return *this;
-    }
-
-    // Jeśli rozmiar macierzy nie zmienia się, nie alokujemy ponownie pamięci
-    if (data != nullptr && n == size) {
-        return *this;
-    }
-
-    // Jeśli macierz ma już zaalokowaną pamięć
+void Matrix::alokuj(int n) {
     if (data != nullptr) {
-        delete[] data;
+        cerr << "Pamięć dla macierzy już została zaalokowana." << endl;
+        return;
     }
-
-    // Alokujemy pamięć dla macierzy n x n
     size = n;
-    data = new int[size * size]; // Alokacja pamięci
-
-    // Inicjalizacja macierzy zerami
-    for (int i = 0; i < size * size; ++i) {
-        data[i] = 0; // Inicjalizujemy każdy element na 0
+    data = new int[size * size]();
+    if (data == nullptr) {
+        cerr << "Nie udało się zaalokować pamięci." << endl;
+        exit(1);
     }
+}
 
-    cout << "Pamięć dla macierzy o wymiarach " << size << " x " << size << " została pomyślnie zaalokowana." << endl;
-
-    return *this;
+int Matrix::pokaz(int x, int y) {
+    // Sprawdzenie, czy indeksy są w zakresie.
+    if (x < 0 || x >= size || y < 0 || y >= size) {
+        cerr << "Indeksy poza zakresem." << endl;
+        return -1;
+    }
+    // Zwrócenie wartości w macierzy.
+    return data[x * size + y];
 }
