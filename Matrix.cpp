@@ -133,3 +133,45 @@ Matrix& Matrix::pod_przekatna(void) {
 
     return *this;
 }
+/**
+ * @brief Alokuje pamięć dla macierzy o wymiarach n x n.
+ *
+ * Jeśli macierz nie miała wcześniej zaalokowanej pamięci, to metoda alokuje
+ * nową tablicę dla macierzy o wymiarach \(n \times n\).
+ * Jeśli pamięć była już zaalokowana, sprawdzane jest, czy nowy rozmiar
+ * różni się od poprzedniego. Jeśli tak, zwalniana jest poprzednia pamięć,
+ * a następnie alokowana nowa o żądanym rozmiarze.
+ *
+ * @param n Rozmiar macierzy (liczba wierszy i kolumn).
+ * @return Zwraca referencję do obiektu macierzy.
+ */
+Matrix& Matrix::alokuj(int n) {
+    // Sprawdzamy, czy rozmiar n jest większy od zera
+    if (n <= 0) {
+        cout << "Rozmiar macierzy musi być większy od zera." << endl;
+        return *this;
+    }
+
+    // Jeśli macierz ma już zaalokowaną pamięć
+    if (data != nullptr) {
+        // Sprawdzamy, czy rozmiar macierzy się zmienia
+        if (n != size) {
+            // Zwalniamy pamięć, jeśli rozmiar się zmienia
+            delete[] data;
+            data = nullptr; // Ustawiamy wskaźnik na nullptr przed nową alokacją
+        }
+    }
+
+    // Alokujemy pamięć dla macierzy n x n
+    size = n;
+    data = new int[size * size]; // Alokacja pamięci
+
+    // Inicjalizacja macierzy zerami
+    for (int i = 0; i < size * size; ++i) {
+        data[i] = 0; // Inicjalizujemy każdy element na 0
+    }
+
+    cout << "Pamięć dla macierzy o wymiarach " << size << " x " << size << " została pomyślnie zaalokowana." << endl;
+
+    return *this;
+}
