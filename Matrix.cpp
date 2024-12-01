@@ -68,3 +68,24 @@ Matrix& Matrix::kolumna(int x, int* t) {
 
     return *this;
 }
+
+Matrix& Matrix::wiersz(int y, int* t) {
+    // Sprawdzenie, czy macierz została zainicjalizowana.
+    if (!data) {
+        cerr << "Pamięć dla macierzy nie została zaalokowana. Najpierw zaalokuj pamięć." << endl;
+        return *this;
+    }
+
+    // Sprawdzenie, czy indeks wiersza jest w zakresie.
+    if (y < 0 || y >= size) {
+        cerr << "Indeks wiersza poza zakresem. Wartość y powinna być w przedziale od 0 do " << size - 1 << "." << endl;
+        return *this;
+    }
+
+    // Przepisanie danych z tabeli do wskazanego wiersza.
+    for (int i = 0; i < size; ++i) {
+        data[y * size + i] = t[i];
+    }
+
+    return *this;
+}
