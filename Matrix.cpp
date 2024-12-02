@@ -373,3 +373,15 @@ Matrix& Matrix::losuj(int x) {
 
     return *this;
 }
+Matrix& Matrix::operator++(int) {
+    if (!data) {
+        cerr << "Pamięć dla macierzy nie została zaalokowana. Najpierw zaalokuj pamięć." << endl;
+        return *this;
+    }
+
+    for (int i = 0; i < size * size; ++i) {
+        ++data[i];
+    }
+
+    return *this;
+}
