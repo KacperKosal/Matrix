@@ -422,3 +422,16 @@ ostream& operator<<(ostream& os, Matrix& m) {
     }
     return os;
 }
+bool Matrix::operator==(const Matrix& m) {
+    if (size != m.size) {
+        return false;
+    }
+
+    for (int i = 0; i < size * size; ++i) {
+        if (data[i] != m.data[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
