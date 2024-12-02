@@ -476,6 +476,16 @@ Matrix& Matrix::losuj(int x) {
 
     return *this;
 }
+/**
+ * @brief Operator postinkrementacji macierzy.
+ *
+ * Operator umożliwia zwiększenie każdej wartości w macierzy o 1 (postinkrementacja).
+ * Jeśli pamięć dla macierzy nie została zaalokowana, wypisywany jest komunikat o błędzie.
+ *
+ * @warning Jeśli pamięć dla macierzy nie została zaalokowana, funkcja zwróci obiekt macierzy w obecnym stanie.
+ *
+ * @return Referencja do zaktualizowanego obiektu macierzy.
+ */
 Matrix& Matrix::operator++(int) {
     if (!data) {
         cerr << "Pamięć dla macierzy nie została zaalokowana. Najpierw zaalokuj pamięć." << endl;
@@ -484,6 +494,18 @@ Matrix& Matrix::operator++(int) {
 
     for (int i = 0; i < size * size; ++i) {
         ++data[i];
+    }
+
+    return *this;
+}
+Matrix& Matrix::operator--(int) {
+    if (!data) {
+        cerr << "Pamięć dla macierzy nie została zaalokowana. Najpierw zaalokuj pamięć." << endl;
+        return *this;
+    }
+
+    for (int i = 0; i < size * size; ++i) {
+        --data[i];
     }
 
     return *this;
