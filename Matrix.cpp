@@ -435,3 +435,6 @@ bool Matrix::operator==(const Matrix& m) {
 
     return true;
 }
+bool Matrix::operator!=(const Matrix& m) {
+    return !(*this == m);
+}
