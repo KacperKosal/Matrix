@@ -510,3 +510,18 @@ Matrix& Matrix::operator--(int) {
 
     return *this;
 }
+
+ostream& operator<<(ostream& os, Matrix& m) {
+    if (!m.data) {
+        os << "Pamięć dla macierzy nie została zaalokowana." << endl;
+        return os;
+    }
+
+    for (int i = 0; i < m.size; ++i) {
+        for (int j = 0; j < m.size; ++j) {
+            os << m.data[i * m.size + j] << " ";
+        }
+        os << endl;
+    }
+    return os;
+}
