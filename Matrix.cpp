@@ -438,3 +438,16 @@ bool Matrix::operator==(const Matrix& m) {
 bool Matrix::operator!=(const Matrix& m) {
     return !(*this == m);
 }
+bool Matrix::operator>(const Matrix& m) {
+    if (size != m.size) {
+        return false;
+    }
+
+    for (int i = 0; i < size * size; ++i) {
+        if (data[i] <= m.data[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
