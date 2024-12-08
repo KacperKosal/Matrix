@@ -16,7 +16,7 @@ public:
    * @brief Konstruktor alokujący macierz o wymiarach n x n.
    * @param n Rozmiar macierzy.
    */
-  Matrix(int n);
+  explicit Matrix(int n);
 
   /**
    * @brief Konstruktor alokujący macierz i kopiujący dane z tabeli.
@@ -41,7 +41,7 @@ public:
    * @param n Rozmiar macierzy.
    * @return Referencja do bieżącego obiektu.
    */
-  Matrix& alokuj(int n);
+  void alokuj(int n);
 
   /**
    * @brief Wstawia wartość do macierzy na określonej pozycji.
@@ -50,7 +50,7 @@ public:
    * @param wartosc Wstawiana wartość.
    * @return Referencja do bieżącego obiektu.
    */
-  Matrix& wstaw(int x, int y, int wartosc);
+   void wstaw(int x, int y, int wartosc);
 
   /**
    * @brief Zwraca wartość elementu macierzy na pozycji (x, y).
@@ -147,7 +147,6 @@ public:
    * @return Wynikowa macierz.
    */
   Matrix& operator*(Matrix& m);
-
   /**
    * @brief Dodaje do macierzy skalar.
    * @param a Skalar do dodania.
@@ -246,7 +245,7 @@ public:
    * @param m Macierz do porównania.
    * @return true, jeśli macierze są równe, false w przeciwnym razie.
    */
-  bool operator==(const Matrix& m);
+  bool operator==(const Matrix &m) const;
 
   /**
    * @brief Sprawdza, czy wszystkie elementy macierzy są większe od odpowiadających elementów innej macierzy.
@@ -261,6 +260,38 @@ public:
    * @return true, jeśli warunek jest spełniony, false w przeciwnym razie.
    */
   bool operator<(const Matrix& m);
+
+  /**
+   * @brief Operator porównania nierówności macierzy.
+   *
+   * Sprawdza, czy dwie macierze są różne, porównując każdy element.
+   *
+   * @param m Macierz, z którą porównujemy bieżący obiekt.
+   * @return true, jeśli macierze są różne, false w przeciwnym razie.
+   */
+  bool operator!=(const Matrix& m) const;
+
+  /**
+   * @brief Operator przypisania dla macierzy.
+   *
+   * Kopiuje wartości z jednej macierzy do drugiej, alokując odpowiednią pamięć.
+   * W przypadku przypisania do samego siebie operator nie wykonuje żadnych operacji.
+   *
+   * @param m Macierz, której wartości mają zostać przypisane.
+   * @return Referencja do bieżącego obiektu po przypisaniu.
+   */
+  Matrix& operator=(const Matrix &m);
+
+  /**
+   * @brief Operator odejmowania dwóch macierzy.
+   *
+   * Tworzy nową macierz jako różnicę dwóch macierzy, odejmując elementy
+   * na odpowiadających sobie pozycjach. Obie macierze muszą mieć ten sam rozmiar.
+   *
+   * @param m Macierz, którą odejmujemy od bieżącego obiektu.
+   * @return Wynikowa macierz po wykonaniu operacji odejmowania.
+   */
+  Matrix& operator-(Matrix &m);
 
 private:
   int *data; /**< Wskaźnik na dane macierzy. */

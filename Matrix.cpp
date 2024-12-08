@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstdlib>  // dla funkcji rand()
 #include <ctime>    // dla funkcji time()
+#include <algorithm> // dla funkcji copy_n
 using namespace std;
 
 /**
@@ -110,7 +111,7 @@ Matrix::~Matrix() {
 
 /**
  * @brief Ustawia macierz diagonalną na podstawie podanego wektora.
- * 
+ *
  * @param t Tablica wartości, które mają znaleźć się na przekątnej macierzy.
  * @return Zwraca referencję do obiektu macierzy.
  */
@@ -137,7 +138,7 @@ Matrix& Matrix::diagonalna(int* t) {
 
 /**
  * @brief Ustawia macierz diagonalną przesuniętą o k pozycji względem głównej przekątnej.
- * 
+ *
  * @param k Przesunięcie przekątnej względem głównej przekątnej.
  * @param t Tablica wartości do ustawienia na przesuniętej przekątnej.
  * @return Zwraca referencję do obiektu macierzy.
@@ -165,7 +166,7 @@ Matrix& Matrix::diagonalna_k(int k, int* t) {
 
 /**
  * @brief Wstawia wartości do kolumny macierzy.
- * 
+ *
  * @param x Indeks kolumny do wypełnienia.
  * @param t Tablica wartości do wstawienia w kolumnie.
  * @return Zwraca referencję do obiektu macierzy.
@@ -191,7 +192,7 @@ Matrix& Matrix::kolumna(int x, int* t) {
 
 /**
  * @brief Wstawia wartości do wiersza macierzy.
- * 
+ *
  * @param y Indeks wiersza do wypełnienia.
  * @param t Tablica wartości do wstawienia w wierszu.
  * @return Zwraca referencję do obiektu macierzy.
@@ -217,7 +218,7 @@ Matrix& Matrix::wiersz(int y, int* t) {
 
 /**
  * @brief Ustawia macierz jako macierz jednostkową.
- * 
+ *
  * @return Zwraca referencję do obiektu macierzy.
  */
 
@@ -242,7 +243,7 @@ Matrix& Matrix::przekatna(void) {
 
 /**
  * @brief Ustawia elementy poniżej głównej przekątnej na 1, a pozostałe na 0.
- * 
+ *
  * @return Zwraca referencję do obiektu macierzy.
  */
 
@@ -267,7 +268,7 @@ Matrix& Matrix::pod_przekatna(void) {
 
 /**
  * @brief Ustawia elementy powyżej głównej przekątnej na 1, a pozostałe na 0.
- * 
+ *
  * @return Zwraca referencję do obiektu macierzy.
  */
 
@@ -292,7 +293,7 @@ Matrix& Matrix::nad_przekatna(void) {
 
 /**
  * @brief Ustawia wzór szachownicy na macierzy, gdzie 0 i 1 pojawiają się naprzemiennie.
- * 
+ *
  * @return Zwraca referencję do obiektu macierzy.
  */
 
@@ -317,9 +318,9 @@ Matrix& Matrix::szachownica(void) {
 
 /**
  * @brief Operator dodawania macierzy.
- * 
+ *
  * Dodaje dwie macierze element po elemencie.
- * 
+ *
  * @param m Macierz, którą chcemy dodać.
  * @return Zwraca nową macierz będącą wynikiem dodawania.
  */
@@ -337,15 +338,16 @@ Matrix& Matrix::operator+(Matrix& m) {
             result.data[i * size + j] = data[i * size + j] + m.data[i * size + j];
         }
     }
+    copy_n(result.data, size * size, data);
 
-    return result;
+    return *this;
 }
 
 /**
  * @brief Operator mnożenia macierzy.
- * 
+ *
  * Mnoży dwie macierze zgodnie z zasadami algebry macierzy.
- * 
+ *
  * @param m Macierz, przez którą chcemy pomnożyć.
  * @return Zwraca nową macierz będącą wynikiem mnożenia.
  */
@@ -366,13 +368,14 @@ Matrix& Matrix::operator*(Matrix& m) {
             }
         }
     }
+    copy_n(result.data, size * size, data);
 
-    return result;
+    return *this;
 }
 
 /**
  * @brief Wstawia wartość do macierzy w określonej pozycji.
- * 
+ *
  * @param x Indeks wiersza.
  * @param y Indeks kolumny.
  * @param wartosc Wartość do wstawienia.
@@ -388,7 +391,7 @@ void Matrix::wstaw(int x, int y, int wartosc) {
 
 /**
  * @brief Alokuje pamięć dla macierzy o określonym rozmiarze.
- * 
+ *
  * @param n Rozmiar macierzy (n x n).
  */
 
@@ -407,7 +410,7 @@ void Matrix::alokuj(int n) {
 
 /**
  * @brief Pobiera wartość z macierzy w określonej pozycji.
- * 
+ *
  * @param x Indeks wiersza.
  * @param y Indeks kolumny.
  * @return Zwraca wartość w macierzy na pozycji (x, y). Zwraca -1 w przypadku błędu.
@@ -423,9 +426,9 @@ int Matrix::pokaz(int x, int y) {
 
 /**
  * @brief Operator dodawania skalaru do macierzy.
- * 
+ *
  * Dodaje skalar do każdego elementu macierzy.
- * 
+ *
  * @param a Wartość skalara.
  * @return Zwraca referencję do zmodyfikowanej macierzy.
  */
@@ -447,9 +450,9 @@ Matrix& Matrix::operator+(int a) {
 
 /**
  * @brief Operator mnożenia macierzy przez skalar.
- * 
+ *
  * Mnoży każdy element macierzy przez skalar.
- * 
+ *
  * @param a Wartość skalara.
  * @return Zwraca referencję do zmodyfikowanej macierzy.
  */
@@ -471,9 +474,9 @@ Matrix& Matrix::operator*(int a) {
 
 /**
  * @brief Operator odejmowania skalara od macierzy.
- * 
+ *
  * Odejmuje skalar od każdego elementu macierzy.
- * 
+ *
  * @param a Wartość skalara.
  * @return Zwraca referencję do zmodyfikowanej macierzy.
  */
@@ -495,9 +498,9 @@ Matrix& Matrix::operator-(int a) {
 
 /**
  * @brief Transponuje macierz.
- * 
+ *
  * Zamienia wiersze z kolumnami macierzy.
- * 
+ *
  * @return Zwraca nową macierz będącą transpozycją macierzy oryginalnej.
  */
 
@@ -509,15 +512,16 @@ Matrix& Matrix::dowroc(void) {
             temp.data[j * size + i] = data[i * size + j];
         }
     }
+    copy_n(temp.data, size * size, data);
 
-    return temp;
+    return *this;
 }
 
 /**
  * @brief Operator odejmowania macierzy.
- * 
+ *
  * Odejmuje dwie macierze element po elemencie.
- * 
+ *
  * @param m Macierz, którą chcemy odjąć.
  * @return Zwraca nową macierz będącą wynikiem odejmowania.
  */
@@ -535,20 +539,21 @@ Matrix& Matrix::operator-(Matrix& m) {
             result.data[i * size + j] = data[i * size + j] - m.data[i * size + j];
         }
     }
+    copy_n(result.data, size * size, data);
 
-    return result;
+    return *this;
 }
 
 /**
  * @brief Operator przypisania.
- * 
+ *
  * Kopiuje wartości z jednej macierzy do drugiej.
- * 
+ *
  * @param m Macierz, której wartości chcemy przypisać.
  * @return Zwraca referencję do zmodyfikowanej macierzy.
  */
 
-Matrix& Matrix::operator=(Matrix& m) {
+Matrix& Matrix::operator=(const Matrix& m) {
     if (this == &m) {
         return *this;
     }
@@ -650,9 +655,9 @@ Matrix& Matrix::operator++(int) {
 
 /**
  * @brief Operator dekrementacji postfiksowej dla macierzy.
- * 
+ *
  * Zmniejsza każdy element macierzy o 1.
- * 
+ *
  * @return Zwraca referencję do zmodyfikowanej macierzy.
  */
 
@@ -671,15 +676,15 @@ Matrix& Matrix::operator--(int) {
 
 /**
  * @brief Operator strumieniowego wypisywania macierzy.
- * 
+ *
  * Wypisuje zawartość macierzy w formacie tekstowym.
- * 
+ *
  * @param os Strumień wyjściowy (np. std::cout).
  * @param m Macierz do wypisania.
  * @return Zwraca referencję do strumienia wyjściowego.
  */
 
-ostream& operator<<(ostream& os, Matrix& m) {
+ostream& operator<<(ostream& os, const Matrix& m) {
     if (!m.data) {
         os << "Pamięć dla macierzy nie została zaalokowana." << endl;
         return os;
@@ -696,14 +701,14 @@ ostream& operator<<(ostream& os, Matrix& m) {
 
 /**
  * @brief Operator porównania równości macierzy.
- * 
+ *
  * Sprawdza, czy dwie macierze są równe element po elemencie.
- * 
+ *
  * @param m Macierz, z którą porównujemy.
  * @return Zwraca true, jeśli macierze są równe, w przeciwnym razie false.
  */
 
-bool Matrix::operator==(const Matrix& m) {
+bool Matrix::operator==(const Matrix& m) const{
     if (size != m.size) {
         return false;
     }
@@ -719,23 +724,23 @@ bool Matrix::operator==(const Matrix& m) {
 
 /**
  * @brief Operator porównania nierówności macierzy.
- * 
+ *
  * Sprawdza, czy dwie macierze są różne.
- * 
+ *
  * @param m Macierz, z którą porównujemy.
  * @return Zwraca true, jeśli macierze są różne, w przeciwnym razie false.
  */
 
 
-bool Matrix::operator!=(const Matrix& m) {
+bool Matrix::operator!=(const Matrix& m) const {
     return !(*this == m);
 }
 
 /**
  * @brief Operator porównania "większości" macierzy.
- * 
+ *
  * Sprawdza, czy wszystkie elementy macierzy są większe od odpowiadających elementów drugiej macierzy.
- * 
+ *
  * @param m Macierz, z którą porównujemy.
  * @return Zwraca true, jeśli każda wartość w tej macierzy jest większa, w przeciwnym razie false.
  */
@@ -756,9 +761,9 @@ bool Matrix::operator>(const Matrix& m) {
 
 /**
  * @brief Operator porównania "mniejszości" macierzy.
- * 
+ *
  * Sprawdza, czy wszystkie elementy macierzy są mniejsze od odpowiadających elementów drugiej macierzy.
- * 
+ *
  * @param m Macierz, z którą porównujemy.
  * @return Zwraca true, jeśli każda wartość w tej macierzy jest mniejsza, w przeciwnym razie false.
  */
